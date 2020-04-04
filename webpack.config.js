@@ -1,6 +1,5 @@
 const webpack = require("webpack");
 const path = require("path");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 let config = {
     entry: "./src/index.js",
@@ -8,6 +7,7 @@ let config = {
         path: path.resolve(__dirname, "./public"),
         filename: "./bundle.js"
     },
+    plugins: [],
     module: {
         rules: [{
             test: /\.js$/,
@@ -37,9 +37,3 @@ let config = {
 };
 
 module.exports = config;
-
-if (process.env.NODE_ENV === 'production') {
-    module.exports.plugins.push(
-        new webpack.optimize.UglifyJsPlugin()
-    );
-}

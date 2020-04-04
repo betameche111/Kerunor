@@ -1,4 +1,8 @@
-import * as THREE from 'three';
+import {
+    WebGLRenderer,
+    Scene,
+    PerspectiveCamera
+} from 'three';
 import {
     OrbitControls
 } from 'three/examples/jsm/controls/OrbitControls';
@@ -7,10 +11,10 @@ import {
 } from 'three/examples/jsm/loaders/GLTFLoader';
 import azerothMap from "./assets/gltf/map.gltf";
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+var scene = new Scene();
+var camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 var loader = new GLTFLoader();
-var renderer = new THREE.WebGLRenderer();
+var renderer = new WebGLRenderer();
 var controls = new OrbitControls(camera, renderer.domElement);
 
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -23,7 +27,8 @@ loader.load(azerothMap, function (gltf) {
     console.error(error);
 });
 
-camera.position.set(0, 5, 2);
+camera.position.set(0, 3, 3);
+camera.lookAt(0, 0, 0);
 controls.update();
 
 var animate = function () {
