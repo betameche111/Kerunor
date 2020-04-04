@@ -6,33 +6,33 @@
     "scene": 0,
     "buffers": [
         {
-            "byteLength": 34928104,
+            "byteLength": 34927128,
             "uri": "buffer.bin"
         }
     ],
     "bufferViews": [
         {
             "buffer": 0,
-            "byteLength": 14615496,
+            "byteLength": 14615352,
             "byteOffset": 0,
             "target": 34963
         },
         {
             "buffer": 0,
-            "byteLength": 7617228,
-            "byteOffset": 14615496,
+            "byteLength": 7616916,
+            "byteOffset": 14615352,
             "target": 34962
         },
         {
             "buffer": 0,
-            "byteLength": 7617228,
-            "byteOffset": 22232724,
+            "byteLength": 7616916,
+            "byteOffset": 22232268,
             "target": 34962
         },
         {
             "buffer": 0,
-            "byteLength": 5078152,
-            "byteOffset": 29849952,
+            "byteLength": 5077944,
+            "byteOffset": 29849184,
             "target": 34962
         }
     ],
@@ -48,14 +48,14 @@
         {
             "componentType": 5125,
             "type": "SCALAR",
-            "count": 3653874,
+            "count": 3653838,
             "bufferView": 0,
             "byteOffset": 0
         },
         {
             "componentType": 5126,
             "type": "VEC3",
-            "count": 634769,
+            "count": 634743,
             "bufferView": 1,
             "byteOffset": 0,
             "min": [
@@ -72,24 +72,37 @@
         {
             "componentType": 5126,
             "type": "VEC3",
-            "count": 634769,
+            "count": 634743,
             "bufferView": 2,
             "byteOffset": 0
         },
         {
             "componentType": 5126,
             "type": "VEC2",
-            "count": 634769,
+            "count": 634743,
             "bufferView": 3,
             "byteOffset": 0
+        }
+    ],
+    "images": [
+        {
+            "name": "file4",
+            "uri": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
         }
     ],
     "samplers": [
         {}
     ],
+    "textures": [
+        {
+            "name": "file4",
+            "sampler": 0,
+            "source": 0
+        }
+    ],
     "materials": [
         {
-            "name": "lambert1",
+            "name": "M_Carte",
             "alphaMode": "OPAQUE",
             "extras": {
                 "fromFBX": {
@@ -98,10 +111,14 @@
                 }
             },
             "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                    "index": 0,
+                    "texCoord": 0
+                },
                 "baseColorFactor": [
-                    0.400000005960464,
-                    0.400000005960464,
-                    0.400000005960464,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
                     1.0
                 ],
                 "metallicFactor": 0.200000002980232,
@@ -111,7 +128,7 @@
     ],
     "meshes": [
         {
-            "name": "Cont26",
+            "name": "World",
             "primitives": [
                 {
                     "material": 0,
@@ -150,7 +167,7 @@
             ]
         },
         {
-            "name": "Cont26",
+            "name": "World",
             "translation": [
                 0.0,
                 0.0,
