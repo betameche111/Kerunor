@@ -27,8 +27,12 @@ loader.load(azerothMap, function (gltf) {
     console.error(error);
 });
 
-camera.position.set(0, 3, 3);
-camera.lookAt(0, 0, 0);
+camera.position.set(0, 1, 3);
+
+controls.maxPolarAngle = Math.PI / 3;
+controls.autoRotate = true;
+controls.enableDamping = true;
+
 controls.update();
 
 var animate = function () {
