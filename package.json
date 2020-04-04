@@ -1,0 +1,29 @@
+{
+  "name": "carte-roman",
+  "version": "1.0.0",
+  "description": "Carte d'Azeroth interactive",
+  "main": "public/index.html",
+  "dependencies": {
+    "gltf-webpack-loader": "^1.0.6",
+    "three": "^0.115.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "cross-env": "^7.0.2",
+    "file-loader": "^6.0.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server -d --hot --config webpack.config.js --watch",
+    "dev": "webpack",
+    "prod": "cross-env NODE_ENV=production webpack --progress"
+  },
+  "author": "Loïc CHACORNAC",
+  "license": "ISC"
+}
