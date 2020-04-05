@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Water } from 'three/examples/jsm/objects/Water.js';
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
 
-import azerothMap from "./assets/gltf/map.gltf";
+import azerothMap from "./assets/glb/map.glb";
 import waterNormals from "./assets/img/waternormals.jpg";
 
 
@@ -21,15 +21,16 @@ document.body.appendChild(renderer.domElement);
 
 // Light creation
 var light = new DirectionalLight(0xffffff, 1);
+var hemiLight = new HemisphereLight(0x77b5fe, 0x001e0f, 1);
 scene.add(light);
+scene.add(hemiLight);
 
 // Sky creation
 var skyParameters = {
     distance: 4000,
-    inclination: 0.3,
-    azimuth: 0.205
+    inclination: 0.7,
+    azimuth: 0.8
 };
-
 
 var theta = Math.PI * (skyParameters.inclination - 0.5);
 var phi = 2 * Math.PI * (skyParameters.azimuth - 0.5);
@@ -70,11 +71,9 @@ var water = new Water(
 water.rotation.x = -Math.PI / 2;
 scene.add(water);
 
-
 // Object Control
 loader.load(azerothMap, function(gltf) {
-    gltf.scene.scale.set(1000, 1000, 1000);
-    gltf.scene.position.set(0, -80, 0);
+    gltf.scene.scale.set(10, 10, 10);
     scene.add(gltf.scene);
 }, function(xhr) {
     console.log((xhr.loaded / xhr.total * 100) + '% loaded');
@@ -82,15 +81,12 @@ loader.load(azerothMap, function(gltf) {
     console.error(error);
 });
 
-var dirLightHelper = new DirectionalLightHelper(light, 5);
-scene.add(dirLightHelper);
-
 // Camera Control
 camera.position.set(0, 1000, 3000);
 
 // Control Options
 controls.maxPolarAngle = Math.PI / 2.5;
-controls.autoRotate = true;
+// controls.autoRotate = true;
 controls.enableDamping = true;
 controls.maxDistance = 4000;
 controls.minDistance = 1000;
@@ -104,9 +100,9 @@ controls.minPan = new Vector3(-1000, -1000, -1000);
 controls.update();
 
 var animate = function() {
-    water.material.uniforms['time'].value += 1.0 / 60.0;
-    requestAnimationFrame(animate);
     controls.update();
+    requestAnimationFrame(animate);
+    water.material.uniforms['time'].value += 1.0 / 60.0;
     renderer.render(scene, camera);
 };
 
