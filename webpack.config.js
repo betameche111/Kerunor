@@ -14,14 +14,9 @@ let config = {
             exclude: /node_modules/,
             loader: "babel-loader"
         }, {
-            test: /\.(glb|bin|jpg)$/,
+            test: /\.(glb|jpg|svg)$/,
             use: [{
                 loader: 'file-loader',
-            }]
-        }, {
-            test: /\.(gltf)$/,
-            use: [{
-                loader: "gltf-webpack-loader"
             }]
         }]
     },

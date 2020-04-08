@@ -4,7 +4,6 @@
   "description": "Carte d'Azeroth interactive",
   "main": "public/index.html",
   "dependencies": {
-    "gltf-webpack-loader": "^1.0.6",
     "three": "^0.115.0"
   },
   "devDependencies": {
