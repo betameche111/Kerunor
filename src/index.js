@@ -1,4 +1,4 @@
-import { WebGLRenderer, Scene, PerspectiveCamera, Fog, MOUSE, Vector3, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, HemisphereLightHelper, DirectionalLight, DirectionalLightHelper } from 'three';
+import { WebGLRenderer, Scene, PerspectiveCamera, Fog, MOUSE, Vector3, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight } from 'three';
 import { OrbitControls } from './OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Water } from 'three/examples/jsm/objects/Water.js';
@@ -27,7 +27,7 @@ scene.add(hemiLight);
 
 // Sky creation
 var skyParameters = {
-    distance: 4000,
+    distance: 40000,
     inclination: 0.7,
     azimuth: 0.8
 };
@@ -77,16 +77,24 @@ scene.add(water);
 
 // Object Control
 loader.load(azerothMap, function(gltf) {
-    gltf.scene.scale.set(100, 100, 100);
-    scene.add(gltf.scene);
-}, function(xhr) {
-    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-}, function(error) {
-    console.error(error);
-});
+        gltf.scene.scale.set(100, 100, 100);
+        gltf.scene.traverse(function(child) {
+            if (child.isMesh) {
+                child.material.transparent = false;
+                child.material.depthWrite = true;
+            }
+        });
+        scene.add(gltf.scene);
+    },
+    function(xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    function(error) {
+        console.error(error);
+    });
 
 // Camera Control
-camera.position.set(0, 10000, 30000);
+camera.position.set(0, 15835, 40378);
 
 // Control Options
 controls.maxPolarAngle = Math.PI / 3;
@@ -107,7 +115,6 @@ var animate = function() {
     controls.update();
     requestAnimationFrame(animate);
     water.material.uniforms['time'].value += 1.0 / 60.0;
-    camera.updateProjectionMatrix();
     renderer.render(scene, camera);
 };
 
