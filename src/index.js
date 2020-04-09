@@ -1,19 +1,21 @@
-import { WebGLRenderer, Scene, PerspectiveCamera, Fog, MOUSE, Vector3, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight, SpriteMaterial, Sprite } from 'three';
+import { WebGLRenderer, Scene, PerspectiveCamera, Fog, MOUSE, Vector3, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight } from 'three';
 import { OrbitControls } from './OrbitControls.js';
+import { Poi } from "./Poi.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { Water } from 'three/examples/jsm/objects/Water.js';
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
 
 import azerothMap from "./assets/glb/map.glb";
 import waterNormals from "./assets/img/waternormals.jpg";
-import interestPoint from "./assets/img/poi.svg";
+
 
 
 // Create Object
 var scene = new Scene();
 var camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1000, 110000);
 var loader = new GLTFLoader();
-var renderer = new WebGLRenderer();
+var renderer = new WebGLRenderer({ antialias: true });
 var controls = new OrbitControls(camera, renderer.domElement);
 
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -78,12 +80,15 @@ water.renderOrder = 1;
 scene.add(water);
 
 // Object Control
+DRACOLoader.setDecoderPath('three/exemple/js/libs/draco/gltf/')
+loader.setDRACOLoader(new DRACOLoader());
 loader.load(azerothMap, function(gltf) {
         gltf.scene.scale.set(100, 100, 100);
         gltf.scene.traverse(function(child) {
             if (child.isMesh) {
                 child.material.transparent = false;
                 child.material.depthWrite = true;
+
             }
         });
         scene.add(gltf.scene);
@@ -113,13 +118,7 @@ controls.maxPan = new Vector3(7000, 7000, 7000);
 controls.minPan = new Vector3(-7000, -7000, -7000);
 controls.update();
 
-
-var spriteMap = new TextureLoader().load(interestPoint);
-var spriteMaterial = new SpriteMaterial({ map: spriteMap });
-var sprite = new Sprite(spriteMaterial);
-sprite.scale.set(700, 700, 700);
-sprite.position.set(1300, 1700, -5000);
-scene.add(sprite);
+scene.add(Poi);
 
 
 var animate = function() {
