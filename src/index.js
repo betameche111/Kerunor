@@ -1,4 +1,4 @@
-import { WebGLRenderer, Scene, PerspectiveCamera, Fog, MOUSE, Vector3, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight } from 'three';
+import { WebGLRenderer, Scene, PerspectiveCamera, Fog, MOUSE, Vector3, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight, CameraHelper } from 'three';
 import { OrbitControls } from './OrbitControls.js';
 import { Poi } from "./Poi.js";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -15,6 +15,7 @@ import waterNormals from "./assets/img/waternormals.jpg";
 var scene = new Scene();
 var camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1000, 110000);
 var loader = new GLTFLoader();
+var dracoLoader = new DRACOLoader();
 var renderer = new WebGLRenderer({ antialias: true });
 var controls = new OrbitControls(camera, renderer.domElement);
 
@@ -38,9 +39,19 @@ var skyParameters = {
 var theta = Math.PI * (skyParameters.inclination - 0.5);
 var phi = 2 * Math.PI * (skyParameters.azimuth - 0.5);
 
+light.castShadow = true;
+light.shadow.camera.near = 27000; // default
+light.shadow.camera.far = 60000; // default
+light.shadow.camera.left = -23000;
+light.shadow.camera.right = 20000;
+light.shadow.camera.top = 8000;
+light.shadow.camera.bottom = -8000;
+
 light.position.x = skyParameters.distance * Math.cos(phi);
 light.position.y = skyParameters.distance * Math.sin(phi) * Math.sin(theta);
 light.position.z = skyParameters.distance * Math.sin(phi) * Math.cos(theta);
+
+//scene.add(new CameraHelper(light.shadow.camera));
 
 var sky = new Sky();
 sky.scale.setScalar(450000);
@@ -77,17 +88,20 @@ var water = new Water(
 
 water.rotation.x = -Math.PI / 2;
 water.renderOrder = 1;
+water.receiveShadow = true;
 scene.add(water);
 
 // Object Control
-DRACOLoader.setDecoderPath('three/exemple/js/libs/draco/gltf/')
-loader.setDRACOLoader(new DRACOLoader());
+dracoLoader.setDecoderPath("https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/");
+loader.setDRACOLoader(dracoLoader);
 loader.load(azerothMap, function(gltf) {
         gltf.scene.scale.set(100, 100, 100);
         gltf.scene.traverse(function(child) {
             if (child.isMesh) {
                 child.material.transparent = false;
                 child.material.depthWrite = true;
+                child.castShadow = true;
+                child.receiveShadow = true;
 
             }
         });
