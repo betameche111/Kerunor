@@ -102,44 +102,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
         console.log("Parfait");
     };
 
-
-    var manager = new LoadingManager();
-    manager.onStart = function(url, itemsLoaded, itemsTotal) {
-        bar.max = itemsTotal;
-        bar.value = itemsLoaded;
-        console.log("Start");
-    };
-    manager.onLoad = function() {
-        console.log("OK");
-        bar.classList.add("uk-animation-reverse");
-        button.classList.remove("uk-hidden");
-    };
-    manager.onProgress = function(url, itemsLoaded, itemsTotal) {
-        console.log(".");
-        bar.max = itemsTotal;
-        bar.value = itemsLoaded;
-    };
-    manager.onError = function(url) { console.log('There was an error loading ' + url); };
-
-    var loader = new GLTFLoader(manager);
+    var loader = new GLTFLoader();
     var dracoLoader = new DRACOLoader();
 
     dracoLoader.setDecoderPath("https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/");
     loader.setDRACOLoader(dracoLoader);
     loader.load(azerothMap, function(gltf) {
-        gltf.scene.scale.set(100, 100, 100);
-        gltf.scene.traverse(function(child) {
-            if (child.isMesh) {
-                child.material.transparent = false;
-                child.material.depthWrite = true;
-                child.castShadow = true;
-                child.receiveShadow = true;
+            gltf.scene.scale.set(100, 100, 100);
+            gltf.scene.traverse(function(child) {
+                if (child.isMesh) {
+                    child.material.transparent = false;
+                    child.material.depthWrite = true;
+                    child.castShadow = true;
+                    child.receiveShadow = true;
 
-            }
+                }
+            });
+            scene.add(gltf.scene);
+            bar.classList.add("uk-animation-reverse");
+            button.classList.remove("uk-hidden");
+        },
+        function(xhr) {
+            bar.max = xhr.total * 100;
+            bar.value = xhr.loaded;
+        },
+        function(error) {
+            console.log('An error happened' + error);
         });
-        scene.add(gltf.scene);
-
-    });
 
     // Camera Control
     camera.position.set(0, 15835, 40378);
