@@ -124,6 +124,7 @@ loader.load(azerothMap, function(gltf) {
     },
     function(xhr) {
         console.log(xhr.loaded + "/" + xhr.total);
+        console.log(xhr);
         bar.max = xhr.total;
         bar.value = xhr.loaded;
     },
