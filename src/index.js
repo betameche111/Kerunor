@@ -9,137 +9,155 @@ import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import azerothMap from "./assets/glb/map.glb";
 import waterNormals from "./assets/img/waternormals.jpg";
 
+import css from 'uikit/dist/css/uikit.css';
+import UIkit from 'uikit/dist/js/uikit.js';
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    // Create Object
+    var scene = new Scene();
+    var camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1000, 110000);
+    var loader = new GLTFLoader();
+    var dracoLoader = new DRACOLoader();
+    var renderer = new WebGLRenderer({ antialias: true });
+    var controls = new OrbitControls(camera, renderer.domElement);
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
 
 
-// Create Object
-var scene = new Scene();
-var camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1000, 110000);
-var loader = new GLTFLoader();
-var dracoLoader = new DRACOLoader();
-var renderer = new WebGLRenderer({ antialias: true });
-var controls = new OrbitControls(camera, renderer.domElement);
+    // Light creation
+    var light = new DirectionalLight(0xffffff, 1);
+    var hemiLight = new HemisphereLight(0x77b5fe, 0x001e0f, 1);
+    scene.add(light);
+    scene.add(hemiLight);
 
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.shadowMap.enabled = true;
-document.body.appendChild(renderer.domElement);
+    // Sky creation
+    var skyParameters = {
+        distance: 40000,
+        inclination: 0.7,
+        azimuth: 0.8
+    };
 
-// Light creation
-var light = new DirectionalLight(0xffffff, 1);
-var hemiLight = new HemisphereLight(0x77b5fe, 0x001e0f, 1);
-scene.add(light);
-scene.add(hemiLight);
+    var theta = Math.PI * (skyParameters.inclination - 0.5);
+    var phi = 2 * Math.PI * (skyParameters.azimuth - 0.5);
 
-// Sky creation
-var skyParameters = {
-    distance: 40000,
-    inclination: 0.7,
-    azimuth: 0.8
-};
+    light.castShadow = true;
+    light.shadow.camera.near = 27000; // default
+    light.shadow.camera.far = 60000; // default
+    light.shadow.camera.left = -23000;
+    light.shadow.camera.right = 20000;
+    light.shadow.camera.top = 8000;
+    light.shadow.camera.bottom = -8000;
 
-var theta = Math.PI * (skyParameters.inclination - 0.5);
-var phi = 2 * Math.PI * (skyParameters.azimuth - 0.5);
+    light.position.x = skyParameters.distance * Math.cos(phi);
+    light.position.y = skyParameters.distance * Math.sin(phi) * Math.sin(theta);
+    light.position.z = skyParameters.distance * Math.sin(phi) * Math.cos(theta);
 
-light.castShadow = true;
-light.shadow.camera.near = 27000; // default
-light.shadow.camera.far = 60000; // default
-light.shadow.camera.left = -23000;
-light.shadow.camera.right = 20000;
-light.shadow.camera.top = 8000;
-light.shadow.camera.bottom = -8000;
+    //scene.add(new CameraHelper(light.shadow.camera));
 
-light.position.x = skyParameters.distance * Math.cos(phi);
-light.position.y = skyParameters.distance * Math.sin(phi) * Math.sin(theta);
-light.position.z = skyParameters.distance * Math.sin(phi) * Math.cos(theta);
-
-//scene.add(new CameraHelper(light.shadow.camera));
-
-var sky = new Sky();
-sky.scale.setScalar(450000);
-sky.material.uniforms["turbidity"].value = 10;
-sky.material.uniforms["rayleigh"].value = 2;
-sky.material.uniforms["luminance"].value = 1;
-sky.material.uniforms["mieCoefficient"].value = 0.005;
-sky.material.uniforms["mieDirectionalG"].value = 0.8;
-sky.material.uniforms["sunPosition"].value = light.position.copy(light.position);
+    var sky = new Sky();
+    sky.scale.setScalar(450000);
+    sky.material.uniforms["turbidity"].value = 10;
+    sky.material.uniforms["rayleigh"].value = 2;
+    sky.material.uniforms["luminance"].value = 1;
+    sky.material.uniforms["mieCoefficient"].value = 0.005;
+    sky.material.uniforms["mieDirectionalG"].value = 0.8;
+    sky.material.uniforms["sunPosition"].value = light.position.copy(light.position);
 
 
-//Fog control
-scene.fog = new Fog(0xE7E7E7, 1000, 100000);
+    //Fog control
+    scene.fog = new Fog(0xE7E7E7, 1000, 100000);
 
-scene.add(sky);
+    scene.add(sky);
 
-var waterGeometry = new PlaneBufferGeometry(2700000, 270000);
+    var waterGeometry = new PlaneBufferGeometry(2700000, 270000);
 
-var water = new Water(
-    waterGeometry, {
-        textureWidth: 1024,
-        textureHeight: 1024,
-        waterNormals: new TextureLoader().load(waterNormals, function(texture) {
-            texture.wrapS = texture.wrapT = RepeatWrapping;
-        }),
-        alpha: 0.0,
-        sunDirection: light.position.clone().normalize(),
-        sunColor: 0xffffff,
-        waterColor: 0x001e0f,
-        distortionScale: 3.7,
-        fog: scene.fog
-    }
-);
+    var water = new Water(
+        waterGeometry, {
+            textureWidth: 1024,
+            textureHeight: 1024,
+            waterNormals: new TextureLoader().load(waterNormals, function(texture) {
+                texture.wrapS = texture.wrapT = RepeatWrapping;
+            }),
+            alpha: 0.0,
+            sunDirection: light.position.clone().normalize(),
+            sunColor: 0xffffff,
+            waterColor: 0x001e0f,
+            distortionScale: 3.7,
+            fog: scene.fog
+        }
+    );
 
-water.rotation.x = -Math.PI / 2;
-water.renderOrder = 1;
-water.receiveShadow = true;
-scene.add(water);
+    water.rotation.x = -Math.PI / 2;
+    water.renderOrder = 1;
+    water.receiveShadow = true;
+    scene.add(water);
 
-// Object Control
-dracoLoader.setDecoderPath("https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/");
-loader.setDRACOLoader(dracoLoader);
-loader.load(azerothMap, function(gltf) {
-        gltf.scene.scale.set(100, 100, 100);
-        gltf.scene.traverse(function(child) {
-            if (child.isMesh) {
-                child.material.transparent = false;
-                child.material.depthWrite = true;
-                child.castShadow = true;
-                child.receiveShadow = true;
+    // Object Control
+    var bar = document.getElementById('progressbar');
+    var preloader = document.getElementById('preloader');
+    var button = document.getElementById('button');
+    button.onclick = function() {
+        button.classList.add("uk-animation-reverse");
+        preloader.classList.add("uk-animation-reverse");
+        preloader.classList.add("uk-animation-fade");
+        console.log("Parfait");
+    };
 
-            }
+    dracoLoader.setDecoderPath("https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/");
+    loader.setDRACOLoader(dracoLoader);
+    loader.load(azerothMap, function(gltf) {
+            gltf.scene.scale.set(100, 100, 100);
+            gltf.scene.traverse(function(child) {
+                if (child.isMesh) {
+                    child.material.transparent = false;
+                    child.material.depthWrite = true;
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+
+                }
+            });
+            scene.add(gltf.scene);
+            bar.classList.add("uk-animation-reverse");
+            button.classList.remove("uk-hidden");
+        },
+        function(xhr) {
+            bar.max = xhr.total;
+            bar.value = xhr.loaded;
+        },
+        function(error) {
+            console.error(error);
         });
-        scene.add(gltf.scene);
-    },
-    function(xhr) {
-        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-    },
-    function(error) {
-        console.error(error);
-    });
 
-// Camera Control
-camera.position.set(0, 15835, 40378);
+    // Camera Control
+    camera.position.set(0, 15835, 40378);
 
-// Control Options
-controls.maxPolarAngle = Math.PI / 3;
-// controls.autoRotate = true;
-controls.enableDamping = true;
-controls.maxDistance = 30000;
-controls.minDistance = 15000;
-controls.mouseButtons = {
-    LEFT: MOUSE.ROTATE,
-    MIDDLE: MOUSE.PAN,
-    RIGHT: MOUSE.PAN
-};
-controls.maxPan = new Vector3(7000, 7000, 7000);
-controls.minPan = new Vector3(-7000, -7000, -7000);
-controls.update();
-
-scene.add(Poi);
-
-
-var animate = function() {
+    // Control Options
+    controls.maxPolarAngle = Math.PI / 3;
+    // controls.autoRotate = true;
+    controls.enableDamping = true;
+    controls.maxDistance = 30000;
+    controls.minDistance = 15000;
+    controls.mouseButtons = {
+        LEFT: MOUSE.ROTATE,
+        MIDDLE: MOUSE.PAN,
+        RIGHT: MOUSE.PAN
+    };
+    controls.maxPan = new Vector3(7000, 7000, 7000);
+    controls.minPan = new Vector3(-7000, -7000, -7000);
     controls.update();
-    requestAnimationFrame(animate);
-    water.material.uniforms['time'].value += 1.0 / 60.0;
-    renderer.render(scene, camera);
-};
 
-animate();
+    scene.add(Poi);
+
+
+    var animate = function() {
+        controls.update();
+        requestAnimationFrame(animate);
+        water.material.uniforms['time'].value += 1.0 / 60.0;
+        renderer.render(scene, camera);
+    };
+
+    document.body.appendChild(renderer.domElement);
+
+    animate();
+});

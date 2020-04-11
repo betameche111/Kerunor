@@ -4,19 +4,16 @@
 <head>
     <meta charset="utf-8">
     <title>My first three.js app</title>
-    <style>
-        body {
-            margin: 0;
-        }
-
-        canvas {
-            display: block;
-        }
-    </style>
 </head>
 
 <body>
     <script src="bundle.js"></script>
+    <div id="preloader" class="uk-background-muted uk-background-cover uk-position-cover">
+        <div class="uk-position-center " style="width:50%;">
+            <progress id="progressbar" class="uk-progress uk-animation-fade" value="" max=""></progress>
+            <button id="button" class="uk-button uk-button-primary uk-button-large uk-position-center uk-hidden">Explorer</button>
+        </div>
+    </div>
 </body>
 
 </html>

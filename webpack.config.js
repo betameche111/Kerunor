@@ -10,15 +10,19 @@ let config = {
     plugins: [],
     module: {
         rules: [{
-            test: /\.js$/,
-            exclude: /node_modules/,
-            loader: "babel-loader"
-        }, {
-            test: /\.(glb|jpg|svg)$/,
-            use: [{
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: "babel-loader"
+            },
+            {
+                test: /\.(glb|jpg|svg)$/,
                 loader: 'file-loader',
-            }]
-        }]
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
+            }
+        ]
     },
 
     devServer: {
