@@ -120,6 +120,8 @@ loader.load(azerothMap, function(gltf) {
         });
         scene.add(gltf.scene);
         bar.classList.add("uk-animation-reverse");
+        bar.classList.add("uk-animation-fade");
+        button.classList.add("uk-animation-fade");
         button.classList.remove("uk-hidden");
     },
     function(xhr) {
