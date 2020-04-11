@@ -123,7 +123,8 @@ loader.load(azerothMap, function(gltf) {
         button.classList.remove("uk-hidden");
     },
     function(xhr) {
-        bar.max = xhr.total * 100;
+        console.log(xhr.loaded + "/" + xhr.total);
+        bar.max = xhr.total;
         bar.value = xhr.loaded;
     },
     function(error) {
