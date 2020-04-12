@@ -16,11 +16,13 @@ var Poi = [];
 var poi1 = new Sprite(spriteMaterial);
 poi1.position.set(1300, 1700, -5000);
 poi1.img = poi1img;
+poi1.img2 = poi2img
 Poi.push(poi1);
 
 var poi2 = new Sprite(spriteMaterial);
 poi2.position.set(700, 900, 8000);
 poi2.img = poi2img;
+poi2.img2 = poi1img;
 Poi.push(poi2);
 
 
@@ -31,6 +33,7 @@ Poi.forEach((element) => {
     element.click = () => {
         UIkit.modal(document.getElementById("modal")).show();
         document.getElementById("modal-img").setAttribute("src", element.img);
+        document.getElementById("modal-img-2").setAttribute("src", element.img2);
     }
 });
 
