@@ -8,12 +8,29 @@
 
 <body>
     <script src="bundle.js"></script>
+    <!-- <div class="uk-hidden"> -->
     <div id="preloader" class="uk-background-muted uk-background-cover uk-position-cover">
         <div class="uk-position-center " style="width:50%;">
             <progress id="progressbar" class="uk-progress" value="" max=""></progress>
             <button id="button" class="uk-button uk-button-primary uk-button-large uk-position-center uk-hidden">Explorer</button>
         </div>
     </div>
+    <!-- </div> -->
+    <div id="modal" class="uk-modal-container " uk-modal>
+        <div class="uk-modal-dialog uk-margin-auto-vertical">
+            <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+            <div class="uk-grid-collapse uk-flex-middle" uk-grid>
+                <div class="uk-width-expand .uk-height-1-1">
+                    <img id="modal-img" src="">
+                </div>
+                <div class="uk-padding-large uk-width-1-3">
+                    <h1 id="modal-head">Headline</h1>
+                    <p id="modal-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

@@ -1,6 +1,7 @@
-import { WebGLRenderer, Scene, PerspectiveCamera, Fog, MOUSE, Vector3, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight, LoadingManager } from 'three';
-import { OrbitControls } from './OrbitControls.js';
+import css from 'uikit/dist/css/uikit.css';
 import { Poi } from "./Poi.js";
+import { WebGLRenderer, Scene, PerspectiveCamera, Fog, MOUSE, Vector3, Vector2, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight, Raycaster } from 'three';
+import { OrbitControls } from './OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { Water } from 'three/examples/jsm/objects/Water.js';
@@ -9,12 +10,7 @@ import { Sky } from 'three/examples/jsm/objects/Sky.js';
 import azerothMap from "./assets/glb/map.glb";
 import waterNormals from "./assets/img/waternormals.jpg";
 
-import css from 'uikit/dist/css/uikit.css';
-import UIkit from 'uikit/dist/js/uikit.js';
-
 document.addEventListener('DOMContentLoaded', (event) => {
-    //the event occurred
-
 
     // Create Object
     var scene = new Scene();
@@ -114,14 +110,49 @@ document.addEventListener('DOMContentLoaded', (event) => {
     controls.minPan = new Vector3(-7000, -7000, -7000);
     controls.update();
 
-    scene.add(Poi);
+    Poi.forEach(element => scene.add(element));
 
+    var raycaster = new Raycaster();
+    var mouse = new Vector2();
+    var object_hover = null;
+
+    function getIntersect(event) {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        return raycaster.intersectObjects(Poi);
+    }
+
+    function onMouseMove(event) {
+        var intersects = getIntersect(event);
+
+        if (intersects.length > 0) {
+            object_hover = intersects[0];
+            object_hover.object.hover();
+        } else if (object_hover != null) {
+            object_hover.object.unhover();
+            object_hover = null;
+        }
+    }
+
+    function onMouseClick(event) {
+        var intersects = getIntersect(event);
+
+        if (intersects.length > 0) {
+            object_hover = intersects[0];
+            object_hover.object.click();
+        }
+    }
+
+    window.addEventListener('mousemove', onMouseMove, false);
+    window.addEventListener('click', onMouseClick, false);
 
     var animate = function() {
         controls.update();
-        requestAnimationFrame(animate);
         water.material.uniforms['time'].value += 1.0 / 60.0;
         renderer.render(scene, camera);
+        requestAnimationFrame(animate);
     };
 
     var bar = document.getElementById('progressbar');
@@ -161,14 +192,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
             if (xhr.lengthComputable)
                 bar.max = xhr.total;
             else
-                bar.max = 32260916;
+                bar.max = 10712276;
             bar.value = xhr.loaded;
         },
         function(error) {
             console.log('An error happened' + error);
         });
 
-    document.body.appendChild(renderer.domElement);
 
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    window.addEventListener('resize', onWindowResize, false);
+    document.body.appendChild(renderer.domElement);
+    // animate();
 
 });
