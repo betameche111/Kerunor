@@ -9,7 +9,8 @@
 <body>
     <script src="bundle.js"></script>
     <!-- <div class="uk-hidden"> -->
-    <div id="preloader" class="uk-background-muted uk-background-cover uk-position-cover">
+    <div id="preloader" class=" uk-cover-container uk-position-cover uk-height-viewport">
+        <img id="preloader-background" src="" alt="" uk-cover>
         <div class="uk-position-center " style="width:50%;">
             <progress id="progressbar" class="uk-progress" value="" max=""></progress>
             <button id="button" class="uk-button uk-button-primary uk-button-large uk-position-center uk-hidden">Explorer</button>
@@ -17,11 +18,11 @@
     </div>
     <!-- </div> -->
     <div id="modal" class="uk-modal-full" uk-modal>
-        <div class="uk-modal-dialog ">
+        <div class="uk-modal-dialog">
             <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
             <div class="uk-grid-collapse uk-flex-middle" uk-grid>
-                <div class="uk-width-expand uk-overlay-primary uk-height-viewport uk-flex-center uk-flex">
-                    <img id="modal-img" class="uk-padding-large uk-height-viewport" src="">
+                <div class="uk-width-expand uk-background-secondary uk-height-viewport uk-flex-middle uk-flex">
+                    <img id="modal-img" class="uk-padding-small" uk-img>
                 </div>
                 <div class="uk-padding-large uk-width-1-4">
                     <h1 id="modal-head">Headline</h1>
@@ -29,8 +30,8 @@
                 </div>
             </div>
             <div class="uk-grid-collapse uk-flex-middle" uk-grid>
-                <div class="uk-width-expand uk-overlay-primary uk-height-viewport uk-flex-center uk-flex">
-                    <img id="modal-img-2" class="uk-padding-large uk-height-viewport" src="">
+                <div class="uk-width-expand uk-background-secondary uk-height-viewport uk-flex uk-flex-middle">
+                    <img id="modal-img-2" class="uk-padding-small" uk-img>
                 </div>
                 <div class="uk-padding-large uk-width-1-4">
                     <h1 id="modal-head-2">Headline</h1>

@@ -32,8 +32,8 @@ Poi.forEach((element) => {
     element.unhover = () => element.material = spriteMaterial;
     element.click = () => {
         UIkit.modal(document.getElementById("modal")).show();
-        document.getElementById("modal-img").setAttribute("src", element.img);
-        document.getElementById("modal-img-2").setAttribute("src", element.img2);
+        document.getElementById("modal-img").setAttribute("data-src", element.img);
+        document.getElementById("modal-img-2").setAttribute("data-src", element.img2);
     }
 });
 

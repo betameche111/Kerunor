@@ -9,9 +9,10 @@ import { Sky } from 'three/examples/jsm/objects/Sky.js';
 
 import azerothMap from "./assets/glb/map.glb";
 import waterNormals from "./assets/img/waternormals.jpg";
+import preloaderBackground from "./assets/img/preload_background.jpg";
 
 document.addEventListener('DOMContentLoaded', (event) => {
-
+    document.getElementById('preloader-background').setAttribute("src", preloaderBackground);
     // Create Object
     var scene = new Scene();
     var camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1000, 110000);
@@ -106,8 +107,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         MIDDLE: MOUSE.PAN,
         RIGHT: MOUSE.PAN
     };
-    controls.maxPan = new Vector3(7000, 7000, 7000);
-    controls.minPan = new Vector3(-7000, -7000, -7000);
+    controls.maxPan = new Vector3(10000, 10000, 10000);
+    controls.minPan = new Vector3(-10000, -10000, -10000);
     controls.update();
 
     Poi.forEach(element => scene.add(element));
