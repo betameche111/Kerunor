@@ -1,13 +1,14 @@
 import css from 'uikit/dist/css/uikit.css';
 import { Poi } from "./Poi.js";
-import { WebGLRenderer, Scene, PerspectiveCamera, Fog, MOUSE, Vector3, Vector2, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight, Raycaster } from 'three';
+import { WebGLRenderer, Scene, PerspectiveCamera, MeshBasicMaterial, Mesh, Fog, MOUSE, Vector3, Vector2, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight, Raycaster } from 'three';
 import { OrbitControls } from './OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { Water } from 'three/examples/jsm/objects/Water.js';
 import { Sky } from 'three/examples/jsm/objects/Sky.js';
 
-import azerothMap from "./assets/glb/map.glb";
+import mountain from "./assets/glb/map.glb";
+import ocean_ground from "./assets/glb/ocean.glb";
 import waterNormals from "./assets/img/waternormals.jpg";
 import preloaderBackground from "./assets/img/preload_background.jpg";
 
@@ -24,8 +25,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
     // Light creation
-    var light = new DirectionalLight(0xffffff, 1);
-    var hemiLight = new HemisphereLight(0x77b5fe, 0x001e0f, 1);
+    var light = new DirectionalLight(0xffffff, 2);
+    var hemiLight = new HemisphereLight(0xDDFCFE, 0x2C3D4F, 1);
     scene.add(light);
     scene.add(hemiLight);
 
@@ -64,11 +65,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
     //Fog control
-    scene.fog = new Fog(0xE7E7E7, 1000, 100000);
+    scene.fog = new Fog(0x2C3D4F, 1000, 100000);
 
     scene.add(sky);
 
-    var waterGeometry = new PlaneBufferGeometry(2700000, 270000);
+    var waterGeometry = new PlaneBufferGeometry(200000, 200000);
 
     var water = new Water(
         waterGeometry, {
@@ -77,7 +78,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             waterNormals: new TextureLoader().load(waterNormals, function(texture) {
                 texture.wrapS = texture.wrapT = RepeatWrapping;
             }),
-            alpha: 0.0,
+            alpha: 0.5,
             sunDirection: light.position.clone().normalize(),
             sunColor: 0xffffff,
             waterColor: 0x001e0f,
@@ -85,22 +86,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
             fog: scene.fog
         }
     );
-
+    water.material.transparent = true;
     water.rotation.x = -Math.PI / 2;
-    water.renderOrder = 1;
     water.receiveShadow = true;
     scene.add(water);
+
+    var waterGroundGeometry = new PlaneBufferGeometry(220000, 220000);
+    var material = new MeshBasicMaterial({ color: 0x000000 });
+    var waterGroundGeometryMech = new Mesh(waterGroundGeometry, material);
+    waterGroundGeometryMech.position.set(0, -12, 0);
+    waterGroundGeometryMech.rotation.x = -Math.PI / 2;
+    scene.add(waterGroundGeometryMech);
 
     // Object Control
 
     // Camera Control
-    camera.position.set(0, 15835, 40378);
+    camera.position.set(0, 32000, 0);
 
     // Control Options
-    controls.maxPolarAngle = Math.PI / 3;
+    controls.maxPolarAngle = Math.PI / 3.1;
     // controls.autoRotate = true;
     controls.enableDamping = true;
-    controls.maxDistance = 30000;
+    controls.maxDistance = 32000;
     controls.minDistance = 15000;
     controls.mouseButtons = {
         LEFT: MOUSE.ROTATE,
@@ -169,10 +176,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     var loader = new GLTFLoader();
     var dracoLoader = new DRACOLoader();
+    var total_load = 10712276 + 2364872;
+    var map_load;
+    var ocean_load;
 
     dracoLoader.setDecoderPath("https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/");
     loader.setDRACOLoader(dracoLoader);
-    loader.load(azerothMap, function(gltf) {
+
+    loader.load(ocean_ground, function(gltf) {
+            gltf.scene.scale.set(100, 100, 100);
+            gltf.scene.position.set(0, -10, 0);
+            scene.add(gltf.scene);
+        },
+        function(xhr) {
+            console.log("Ocean load : " + xhr.loaded + "/" + xhr.total);
+            bar.max = total_load;
+            ocean_load = xhr.loaded;
+            bar.value = map_load + ocean_load;
+        },
+        function(error) {
+            console.log('An error happened' + error);
+        });
+
+    loader.load(mountain, function(gltf) {
             gltf.scene.scale.set(100, 100, 100);
             gltf.scene.traverse(function(child) {
                 if (child.isMesh) {
@@ -189,12 +215,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             button.classList.remove("uk-hidden");
         },
         function(xhr) {
-            console.log(xhr.loaded + "/" + xhr.total);
-            if (xhr.lengthComputable)
-                bar.max = xhr.total;
-            else
-                bar.max = 10712276;
-            bar.value = xhr.loaded;
+            console.log("Map load : " + xhr.loaded + "/" + xhr.total);
+            bar.max = total_load;
+            map_load = xhr.loaded;
+            bar.value = map_load + ocean_load;
         },
         function(error) {
             console.log('An error happened' + error);
