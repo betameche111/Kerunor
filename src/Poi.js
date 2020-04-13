@@ -30,6 +30,7 @@ Poi.forEach((element) => {
     element.scale.set(700, 700, 700);
     element.hover = () => element.material = spriteHoverMaterial;
     element.unhover = () => element.material = spriteMaterial;
+    element.renderOrder = 1;
     element.click = () => {
         UIkit.modal(document.getElementById("modal")).show();
         document.getElementById("modal-img").setAttribute("data-src", element.img);

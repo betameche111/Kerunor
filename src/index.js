@@ -23,6 +23,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
 
+    // Camera Control
+    camera.position.set(0, 32000, 0);
+
+    // Control Options
+    controls.maxPolarAngle = Math.PI / 3.1;
+    // controls.autoRotate = true;
+    controls.enableDamping = true;
+    controls.maxDistance = 32000;
+    controls.minDistance = 15000;
+    controls.mouseButtons = {
+        LEFT: MOUSE.ROTATE,
+        MIDDLE: MOUSE.PAN,
+        RIGHT: MOUSE.PAN
+    };
+    controls.maxPan = new Vector3(10000, 10000, 10000);
+    controls.minPan = new Vector3(-10000, -10000, -10000);
+    controls.update();
 
     // Light creation
     var light = new DirectionalLight(0xffffff, 2);
@@ -91,6 +108,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     water.receiveShadow = true;
     scene.add(water);
 
+
     var waterGroundGeometry = new PlaneBufferGeometry(220000, 220000);
     var material = new MeshBasicMaterial({ color: 0x000000 });
     var waterGroundGeometryMech = new Mesh(waterGroundGeometry, material);
@@ -98,25 +116,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     waterGroundGeometryMech.rotation.x = -Math.PI / 2;
     scene.add(waterGroundGeometryMech);
 
-    // Object Control
-
-    // Camera Control
-    camera.position.set(0, 32000, 0);
-
-    // Control Options
-    controls.maxPolarAngle = Math.PI / 3.1;
-    // controls.autoRotate = true;
-    controls.enableDamping = true;
-    controls.maxDistance = 32000;
-    controls.minDistance = 15000;
-    controls.mouseButtons = {
-        LEFT: MOUSE.ROTATE,
-        MIDDLE: MOUSE.PAN,
-        RIGHT: MOUSE.PAN
-    };
-    controls.maxPan = new Vector3(10000, 10000, 10000);
-    controls.minPan = new Vector3(-10000, -10000, -10000);
-    controls.update();
 
     Poi.forEach(element => scene.add(element));
 
@@ -186,6 +185,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     loader.load(ocean_ground, function(gltf) {
             gltf.scene.scale.set(100, 100, 100);
             gltf.scene.position.set(0, -10, 0);
+            gltf.scene.traverse(function(child) {
+                if (child.isMesh) {
+                    child.material.roughness = 0;
+                }
+            });
             scene.add(gltf.scene);
         },
         function(xhr) {
