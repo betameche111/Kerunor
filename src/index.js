@@ -1,6 +1,6 @@
 import css from "./style.scss";
 import { Poi } from "./Poi.js";
-import { WebGLRenderer, Scene, PerspectiveCamera, MeshBasicMaterial, Mesh, Fog, MOUSE, Vector3, Vector2, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight, Raycaster } from 'three';
+import { WebGLRenderer, Scene, PerspectiveCamera, MeshStandardMaterial, Mesh, Fog, MOUSE, Vector3, Vector2, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight, Raycaster } from 'three';
 import { OrbitControls } from './OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
     var waterGroundGeometry = new PlaneBufferGeometry(220000, 220000);
-    var material = new MeshBasicMaterial({ color: 0x000000 });
+    var material = new MeshStandardMaterial({ color: 0x000000 });
     var waterGroundGeometryMech = new Mesh(waterGroundGeometry, material);
     waterGroundGeometryMech.position.set(0, -12, 0);
     waterGroundGeometryMech.rotation.x = -Math.PI / 2;
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             gltf.scene.position.set(0, -10, 0);
             gltf.scene.traverse(function(child) {
                 if (child.isMesh) {
-                    child.material.roughness = 0;
+                    child.material.roughness = 1;
                 }
             });
             scene.add(gltf.scene);
