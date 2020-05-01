@@ -1,4 +1,4 @@
-import css from 'uikit/dist/css/uikit.css';
+import css from "./style.scss";
 import { Poi } from "./Poi.js";
 import { WebGLRenderer, Scene, PerspectiveCamera, MeshBasicMaterial, Mesh, Fog, MOUSE, Vector3, Vector2, TextureLoader, RepeatWrapping, PlaneBufferGeometry, HemisphereLight, DirectionalLight, Raycaster } from 'three';
 import { OrbitControls } from './OrbitControls.js';
