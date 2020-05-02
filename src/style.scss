@@ -1,4 +1,19 @@
 $global-primary-background: #2C3D4F;
+$global-secondary-background: #9C7738;
+$global-inverse-color: #fff;
+$global-border-width: 3px;
+$global-border: $global-secondary-background;
+
+$button-default-background: $global-primary-background;
+$button-default-color: $global-inverse-color;
+$button-default-hover-background: $global-secondary-background;
+$button-default-hover-color: $global-inverse-color;
+$button-default-active-background: $global-secondary-background;
+$button-default-active-color: $global-inverse-color;
+$button-default-hover-border: $global-primary-background;
+$button-default-active-border: $global-primary-background;
+
+$progress-background: $global-secondary-background;
 
 @import "uikit/src/scss/variables-theme.scss";
 @import "uikit/src/scss/mixins-theme.scss";

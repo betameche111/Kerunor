@@ -13,30 +13,31 @@
         <img id="preloader-background" src="" alt="" uk-cover>
         <div class="uk-position-bottom-center uk-position-medium" style="width:50%;">
             <progress id="progressbar" class="uk-progress" value="" max=""></progress>
-            <button id="button" class="uk-button uk-button-primary uk-button-large uk-position-medium uk-position-bottom-center uk-hidden">Explorer</button>
+            <button id="button" class="uk-button uk-button-default uk-button-large uk-position-medium uk-position-bottom-center uk-hidden">Explorer</button>
         </div>
     </div>
     <!-- </div> -->
     <div id="modal" class="uk-modal-full" uk-modal>
-        <div class="uk-modal-dialog">
+        <div class="uk-modal-dialog uk-background-cover">
             <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
-            <div class="uk-grid-collapse uk-flex-middle" uk-grid>
-                <div class="uk-width-expand uk-background-secondary uk-height-viewport uk-flex-middle uk-flex">
+            <div class="uk-grid-collapse uk-flex-middle" id="modal-dialog" style="background-size: 100vw auto; height: 56.25vw;" uk-img uk-grid>
+                <div class="uk-width-expand uk-flex-middle uk-flex">
                     <img id="modal-img" class="uk-padding-small" uk-img>
                 </div>
-                <div class="uk-padding-large uk-width-1-4">
+                <div class="uk-padding-large uk-width-1-4  uk-light">
                     <h1 id="modal-head">Headline</h1>
                     <p id="modal-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
                 </div>
             </div>
-            <div class="uk-grid-collapse uk-flex-middle" uk-grid>
-                <div class="uk-width-expand uk-background-secondary uk-height-viewport uk-flex uk-flex-middle">
+            <div class="uk-grid-collapse uk-flex-middle" id="modal-dialog2" style="background-size: 100vw auto; height: 56.25vw;" uk-img uk-grid>
+                <div class="uk-width-expand uk-flex uk-flex-middle">
                     <img id="modal-img-2" class="uk-padding-small" uk-img>
                 </div>
-                <div class="uk-padding-large uk-width-1-4">
+                <div class="uk-padding-large uk-width-1-4  uk-light">
                     <h1 id="modal-head-2">Headline</h1>
                     <p id="modal-text-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
                 </div>
+
             </div>
         </div>
     </div>

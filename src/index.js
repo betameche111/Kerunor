@@ -11,9 +11,12 @@ import mountain from "./assets/glb/map.glb";
 import ocean_ground from "./assets/glb/ocean.glb";
 import waterNormals from "./assets/img/waternormals.jpg";
 import preloaderBackground from "./assets/img/preload_background.jpg";
+import poiBackground from "./assets/img/poi_background.jpg";
 
 document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('preloader-background').setAttribute("src", preloaderBackground);
+    document.getElementById('modal-dialog').setAttribute("data-src", poiBackground);
+    document.getElementById('modal-dialog2').setAttribute("data-src", poiBackground);
     // Create Object
     var scene = new Scene();
     var camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1000, 110000);
