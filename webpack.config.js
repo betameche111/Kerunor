@@ -15,12 +15,16 @@ let config = {
                 loader: "babel-loader"
             },
             {
-                test: /\.(glb|jpg|svg)$/,
+                test: /\.(glb|jpg|svg|ttf)$/,
                 loader: 'file-loader',
             },
             {
                 test: /\.s[ac]ss$/i,
                 use: ['style-loader', 'css-loader', 'sass-loader']
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']
             }
         ]
     },
