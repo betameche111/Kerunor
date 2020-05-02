@@ -15,7 +15,7 @@ let config = {
                 loader: "babel-loader"
             },
             {
-                test: /\.(glb|jpg|svg|ttf)$/,
+                test: /\.(glb|jpg|svg|png|ttf)$/,
                 loader: 'file-loader',
             },
             {

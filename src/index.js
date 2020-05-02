@@ -11,7 +11,7 @@ import mountain from "./assets/glb/map.glb";
 import ocean_ground from "./assets/glb/ocean.glb";
 import waterNormals from "./assets/img/waternormals.jpg";
 import preloaderBackground from "./assets/img/preload_background.jpg";
-import poiBackground from "./assets/img/poi_background.jpg";
+import poiBackground from "./assets/img/poi_background.png";
 
 document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('preloader-background').setAttribute("src", preloaderBackground);
