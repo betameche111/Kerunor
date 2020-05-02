@@ -45,28 +45,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
     controls.update();
 
     // Light creation
-    var light = new DirectionalLight(0xffffff, 2);
-    var hemiLight = new HemisphereLight(0xDDFCFE, 0x2C3D4F, 1);
+    var light = new DirectionalLight(0xffffff, 2.3);
+    var hemiLight = new HemisphereLight(0xDDFCFE, 0x2C3D4F, 1.3);
     scene.add(light);
     scene.add(hemiLight);
 
     // Sky creation
     var skyParameters = {
         distance: 40000,
-        inclination: 0.7,
-        azimuth: 0.8
+        inclination: 1.2,
+        azimuth: 0.6,
     };
 
     var theta = Math.PI * (skyParameters.inclination - 0.5);
     var phi = 2 * Math.PI * (skyParameters.azimuth - 0.5);
 
     light.castShadow = true;
-    light.shadow.camera.near = 27000; // default
-    light.shadow.camera.far = 60000; // default
-    light.shadow.camera.left = -23000;
-    light.shadow.camera.right = 20000;
-    light.shadow.camera.top = 8000;
-    light.shadow.camera.bottom = -8000;
+    light.shadow.camera.near = 21000;
+    light.shadow.camera.far = 59500; 
+    light.shadow.camera.left = -17000;
+    light.shadow.camera.right = 16500;
+    light.shadow.camera.top = 12000;
+    light.shadow.camera.bottom = -10000;
 
     light.position.x = skyParameters.distance * Math.cos(phi);
     light.position.y = skyParameters.distance * Math.sin(phi) * Math.sin(theta);
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             waterNormals: new TextureLoader().load(waterNormals, function(texture) {
                 texture.wrapS = texture.wrapT = RepeatWrapping;
             }),
-            alpha: 0.5,
+            alpha: 0.6,
             sunDirection: light.position.clone().normalize(),
             sunColor: 0xffffff,
             waterColor: 0x001e0f,
