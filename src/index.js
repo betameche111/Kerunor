@@ -27,21 +27,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
     renderer.shadowMap.enabled = true;
 
     // Camera Control
-    camera.position.set(0, 32000, 0);
+    camera.position.set(-2000, 16907, 20788);
 
     // Control Options
     controls.maxPolarAngle = Math.PI / 3.1;
-    // controls.autoRotate = true;
+    //controls.autoRotate = true;
     controls.enableDamping = true;
-    controls.maxDistance = 32000;
-    controls.minDistance = 15000;
+    controls.maxDistance = 25000;
+    controls.minDistance = 7000;
     controls.mouseButtons = {
         LEFT: MOUSE.ROTATE,
         MIDDLE: MOUSE.PAN,
         RIGHT: MOUSE.PAN
     };
-    controls.maxPan = new Vector3(10000, 10000, 10000);
-    controls.minPan = new Vector3(-10000, -10000, -10000);
+    controls.maxPan = new Vector3(20000, 10000, 10000);
+    controls.minPan = new Vector3(-20000, -10000, -10000);
     controls.update();
 
     // Light creation
