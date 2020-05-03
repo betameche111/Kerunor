@@ -15,8 +15,8 @@ import poiBackground from "./assets/img/poi_background.png";
 
 document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('preloader-background').setAttribute("src", preloaderBackground);
-    document.getElementById('modal-dialog').setAttribute("data-src", poiBackground);
-    document.getElementById('modal-dialog2').setAttribute("data-src", poiBackground);
+    document.getElementById('modal-content').setAttribute("data-src", poiBackground);
+
     // Create Object
     var scene = new Scene();
     var camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1000, 110000);
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     light.castShadow = true;
     light.shadow.camera.near = 21000;
-    light.shadow.camera.far = 59500; 
+    light.shadow.camera.far = 59500;
     light.shadow.camera.left = -17000;
     light.shadow.camera.right = 16500;
     light.shadow.camera.top = 12000;
