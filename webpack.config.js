@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const path = require("path");
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 let config = {
     entry: "./src/index.js",
@@ -7,7 +8,9 @@ let config = {
         path: path.resolve(__dirname, "./public"),
         filename: "./bundle.js"
     },
-    plugins: [],
+    plugins: [
+        // new CleanWebpackPlugin(),
+    ],
     module: {
         rules: [{
                 test: /\.js$/,

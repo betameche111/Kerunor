@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Light creation
     var light = new DirectionalLight(0xffffff, 2.3);
-    var hemiLight = new HemisphereLight(0xDDFCFE, 0x2C3D4F, 1.3);
+    var hemiLight = new HemisphereLight(0xDDFCFE, 0x2C3D4F, 1.1);
     scene.add(light);
     scene.add(hemiLight);
 
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     var loader = new GLTFLoader();
     var dracoLoader = new DRACOLoader();
-    var total_load = 10712276 + 2364872;
+    var total_load = 18947448;
     var map_load;
     var ocean_load;
 
