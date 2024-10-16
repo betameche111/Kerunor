@@ -93,18 +93,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     var water = new Water(
         waterGeometry, {
-            textureWidth: 1024,
-            textureHeight: 1024,
-            waterNormals: new TextureLoader().load(waterNormals, function(texture) {
-                texture.wrapS = texture.wrapT = RepeatWrapping;
-            }),
-            alpha: 0.6,
-            sunDirection: light.position.clone().normalize(),
-            sunColor: 0xffffff,
-            waterColor: 0x001e0f,
-            distortionScale: 3.7,
-            fog: scene.fog
-        }
+        textureWidth: 1024,
+        textureHeight: 1024,
+        waterNormals: new TextureLoader().load(waterNormals, function (texture) {
+            texture.wrapS = texture.wrapT = RepeatWrapping;
+        }),
+        alpha: 0.6,
+        sunDirection: light.position.clone().normalize(),
+        sunColor: 0xffffff,
+        waterColor: 0x001e0f,
+        distortionScale: 3.7,
+        fog: scene.fog
+    }
     );
     water.material.transparent = true;
     water.rotation.x = -Math.PI / 2;
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     window.addEventListener('mousemove', onMouseMove, false);
     window.addEventListener('click', onMouseClick, false);
 
-    var animate = function() {
+    var animate = function () {
         controls.update();
         water.material.uniforms['time'].value += 1.0 / 60.0;
         renderer.render(scene, camera);
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var bar = document.getElementById('progressbar');
     var preloader = document.getElementById('preloader');
     var button = document.getElementById('button');
-    button.onclick = function() {
+    button.onclick = function () {
         button.classList.add("uk-animation-reverse");
         preloader.classList.add("uk-animation-reverse");
         preloader.classList.add("uk-animation-fade");
@@ -182,52 +182,52 @@ document.addEventListener('DOMContentLoaded', (event) => {
     var map_load;
     var ocean_load;
 
-    dracoLoader.setDecoderPath("https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/js/libs/draco/");
+    dracoLoader.setDecoderPath("https://www.gstatic.com/draco/v1/decoders/");
     loader.setDRACOLoader(dracoLoader);
 
-    loader.load(ocean_ground, function(gltf) {
-            gltf.scene.scale.set(100, 100, 100);
-            gltf.scene.position.set(0, -10, 0);
-            gltf.scene.traverse(function(child) {
-                if (child.isMesh) {
-                    child.material.roughness = 1;
-                }
-            });
-            scene.add(gltf.scene);
-        },
-        function(xhr) {
+    loader.load(ocean_ground, function (gltf) {
+        gltf.scene.scale.set(100, 100, 100);
+        gltf.scene.position.set(0, -10, 0);
+        gltf.scene.traverse(function (child) {
+            if (child.isMesh) {
+                child.material.roughness = 1;
+            }
+        });
+        scene.add(gltf.scene);
+    },
+        function (xhr) {
             console.log("Ocean load : " + xhr.loaded + "/" + xhr.total);
             bar.max = total_load;
             ocean_load = xhr.loaded;
             bar.value = map_load + ocean_load;
         },
-        function(error) {
+        function (error) {
             console.log('An error happened' + error);
         });
 
-    loader.load(mountain, function(gltf) {
-            gltf.scene.scale.set(100, 100, 100);
-            gltf.scene.traverse(function(child) {
-                if (child.isMesh) {
-                    child.material.transparent = false;
-                    child.material.depthWrite = true;
-                    child.castShadow = true;
-                    child.receiveShadow = true;
-                }
-            });
-            scene.add(gltf.scene);
-            bar.classList.add("uk-animation-reverse");
-            bar.classList.add("uk-animation-slide-bottom");
-            button.classList.add("uk-animation-fade");
-            button.classList.remove("uk-hidden");
-        },
-        function(xhr) {
+    loader.load(mountain, function (gltf) {
+        gltf.scene.scale.set(100, 100, 100);
+        gltf.scene.traverse(function (child) {
+            if (child.isMesh) {
+                child.material.transparent = false;
+                child.material.depthWrite = true;
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }
+        });
+        scene.add(gltf.scene);
+        bar.classList.add("uk-animation-reverse");
+        bar.classList.add("uk-animation-slide-bottom");
+        button.classList.add("uk-animation-fade");
+        button.classList.remove("uk-hidden");
+    },
+        function (xhr) {
             console.log("Map load : " + xhr.loaded + "/" + xhr.total);
             bar.max = total_load;
             map_load = xhr.loaded;
             bar.value = map_load + ocean_load;
         },
-        function(error) {
+        function (error) {
             console.log('An error happened' + error);
         });
 
